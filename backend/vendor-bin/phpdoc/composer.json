@@ -11,5 +11,12 @@
             "email": "darlankennedy2@gmail.com"
         }
     ],
-    "require": {}
+    "require": {
+        "phpdocumentor/phpdocumentor": "3"
+    },
+    "config": {
+        "allow-plugins": {
+            "symfony/flex": true
+        }
+    }
 }

@@ -13,10 +13,5 @@
     ],
     "require": {
         "phpdocumentor/phpdocumentor": "3"
-    },
-    "config": {
-        "allow-plugins": {
-            "symfony/flex": true
-        }
     }
 }

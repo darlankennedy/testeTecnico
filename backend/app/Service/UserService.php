@@ -221,10 +221,13 @@ class UserService
         string $direction = 'asc'
     ): array {
         try {
-            return $this->userRepository->paginate($perPage, $filters, ['products'], $orderBy, $direction)->toArray();
-        } catch (Exception $e) {
-            Log::error('Error paginating users: ' . $e->getMessage());
-            throw new Exception('Unable to paginate users.');
+            $paginator = $this->userRepository
+                ->paginate($perPage, $filters, ['products'], $orderBy, $direction);
+
+            return $paginator->toArray();
+        } catch (\Throwable $e) {
+            \Log::error('Error paginating users: '.$e->getMessage());
+            throw new \Exception('Unable to paginate users.');
         }
     }
 

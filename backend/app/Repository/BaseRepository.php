@@ -7,6 +7,9 @@ use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Log;
 use Exception;
+use Illuminate\Database\Eloquent\Builder;
+use Throwable;
+
 
 /**
  * Class BaseRepository
@@ -25,6 +28,12 @@ class BaseRepository
      * @var Model
      */
     protected Model $model;
+
+    protected array $searchable = [];
+
+    protected array $filterable = [];
+
+    protected array $sortable   = ['id'];
 
     /**
      * BaseRepository constructor
@@ -194,23 +203,133 @@ class BaseRepository
     public function paginate(
         int    $perPage = 15,
         array  $filters = [],
-        array $with = [],
+        array  $with = [],
         string $orderBy = 'id',
         string $direction = 'asc'
-    ): LengthAwarePaginator|Collection
+    ): LengthAwarePaginator|\Illuminate\Support\Collection
     {
         try {
-            $query = $this->model->query();
-            foreach ($filters as $field => $value) {
-                $query->where($field, 'LIKE', "%$value%");
+            /** @var Builder $query */
+            $query = $this->model->newQuery();
+
+            // Eager loads
+            if (!empty($with)) {
+                $query->with($with);
             }
 
-            return $query->with($with)->orderBy($orderBy, $direction)->paginate($perPage);
-        } catch (Exception $e) {
+            // LIKE compatível com o driver
+            $driver = $this->model->getConnection()->getDriverName();
+            $likeOp = $driver === 'pgsql' ? 'ILIKE' : 'LIKE';
+
+            // --- SEARCH (opcional) ---
+            $search = trim((string)($filters['search'] ?? ''));
+            unset($filters['search']);
+
+            if ($search !== '' && !empty($this->searchable)) {
+                $query->where(function (Builder $q) use ($search, $likeOp) {
+                    foreach ($this->searchable as $col) {
+                        if (str_contains($col, '.')) {
+                            // relação.ex: company.name
+                            [$rel, $relCol] = explode('.', $col, 2);
+                            $q->orWhereHas($rel, function (Builder $qq) use ($relCol, $search, $likeOp) {
+                                $qq->where($relCol, $likeOp, "%{$search}%");
+                            });
+                        } else {
+                            $q->orWhere($col, $likeOp, "%{$search}%");
+                        }
+                    }
+                });
+            }
+
+            foreach ($filters as $field => $value) {
+                // pula nulos/vazios
+                if ($value === null || (is_string($value) && trim($value) === '')) {
+                    continue;
+                }
+
+                if (!empty($this->filterable) && !in_array($field, $this->filterable, true)) {
+                    continue;
+                }
+
+                if (str_contains($field, '.')) {
+                    [$rel, $relCol] = explode('.', $field, 2);
+                    $query->whereHas($rel, function (Builder $qq) use ($relCol, $value, $likeOp) {
+                        $this->applyWhere($qq, $relCol, $value, $likeOp);
+                    });
+                    continue;
+                }
+
+                $this->applyWhere($query, $field, $value, $likeOp);
+            }
+
+            $direction = strtolower($direction) === 'desc' ? 'desc' : 'asc';
+            if (!empty($this->sortable) && !in_array($orderBy, $this->sortable, true)) {
+                $orderBy = $this->sortable[0] ?? 'id';
+            }
+            $query->orderBy($orderBy, $direction);
+
+            return $query->paginate($perPage);
+        } catch (Throwable $e) {
             Log::error(__('repository.errors.pagination', ['message' => $e->getMessage()]));
             return collect();
         }
     }
+
+    protected function applyWhere(Builder $q, string $field, mixed $value, string $likeOp): void
+    {
+        if (is_array($value)) {
+            if (array_key_exists('from', $value) || array_key_exists('to', $value)) {
+                $from = $value['from'] ?? null;
+                $to   = $value['to']   ?? null;
+
+                if ($from !== null && $to !== null) {
+                    $q->whereBetween($field, [$from, $to]);
+                } elseif ($from !== null) {
+                    $q->where($field, '>=', $from);
+                } elseif ($to !== null) {
+                    $q->where($field, '<=', $to);
+                }
+                return;
+            }
+
+            if (isset($value['op'], $value['value'])) {
+                $op  = strtolower((string)$value['op']);
+                $val = $value['value'];
+
+                if (in_array($op, ['in', 'not in'], true) && is_array($val)) {
+                    $op === 'in' ? $q->whereIn($field, $val) : $q->whereNotIn($field, $val);
+                    return;
+                }
+
+                if (in_array($op, ['like', 'ilike'], true)) {
+                    $q->where($field, $likeOp, "%{$val}%");
+                } elseif (in_array($op, ['=', '!=', '>', '>=', '<', '<='], true)) {
+                    $q->where($field, strtoupper($op), $val);
+                } else {
+                    // fallback
+                    $q->where($field, $likeOp, "%{$val}%");
+                }
+                return;
+            }
+
+            $vals = array_values(array_filter($value, fn($v) => $v !== null && $v !== ''));
+            if ($vals) {
+                $q->whereIn($field, $vals);
+            }
+            return;
+        }
+
+        if (is_bool($value) || $value === 0 || $value === 1 || $value === '0' || $value === '1') {
+            $q->where($field, (int)$value);
+            return;
+        }
+        if (is_numeric($value)) {
+            $q->where($field, $value);
+            return;
+        }
+        $q->where($field, $likeOp, '%' . trim((string)$value) . '%');
+    }
+
 
     /**
      * Check if records exist with the specified conditions

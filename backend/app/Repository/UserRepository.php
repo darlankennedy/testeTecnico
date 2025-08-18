@@ -7,6 +7,9 @@ use Illuminate\Support\Facades\DB;
 
 class UserRepository extends BaseRepository
 {
+    protected array $searchable = ['name','email','cpf','company.name'];
+    protected array $filterable = ['name','email','cpf','status','company_id','created_at','company.name'];
+    protected array $sortable   = ['id','name','email','created_at'];
     public function __construct(User $model){
         parent::__construct($model);
     }

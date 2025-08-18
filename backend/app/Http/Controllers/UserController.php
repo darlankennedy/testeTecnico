@@ -28,9 +28,17 @@ class UserController extends Controller
             $orderBy   = (string) $request->get('order_by', 'id');
             $direction = (string) $request->get('direction', 'asc');
 
-            $filters = $request->only(['search']);
+            // Monte os filtros no formato que o BaseRepository entende
+            $filters = [
+                'search'      => $request->string('search')->toString(),              // texto livre
+                'status'      => $request->input('status'),                           // string ou array
+                'company_id'  => $request->input('company_id'),                       // numérico
+                'created_at'  => [                                                    // range (datas)
+                    'from' => $request->input('created_at_from'),
+                    'to'   => $request->input('created_at_to'),
+                ],
+            ];
             $result = $this->userService->paginate($perPage, $filters, $orderBy, $direction);
-
             return response()->json([
                 'data' => $result['data'] ?? [],
                 'meta' => [
@@ -40,12 +48,11 @@ class UserController extends Controller
                     'last_page'    => $result['last_page'] ?? 1,
                 ],
             ]);
-        } catch (Throwable $e) {
+        } catch (\Throwable $e) {
             report($e);
             return response()->json(['message' => 'Unable to paginate users.'], 500);
         }
     }
-
     /**
      * Show a single user
      */

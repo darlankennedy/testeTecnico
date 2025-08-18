@@ -2,7 +2,7 @@ FROM php:8.3.16-fpm
 
 COPY --from=composer:2.8.10 /usr/bin/composer /usr/bin/composer
 
-WORKDIR /Navi/
+WORKDIR /backend/
 
 RUN apt-get update && apt-get install -y \
         git \
@@ -54,5 +54,5 @@ ENV XDEBUG_MODE="coverage"
 RUN echo 'date.timezone = "America/Manaus"' > /usr/local/etc/php/conf.d/docker-php-ext-timezone.ini
 
 COPY . .
-RUN chmod +x /Navi/start.sh \
-    && chmod -R 777 /Navi/bootstrap/cache /Navi/storage
+RUN chmod +x /backend/start.sh \
+    && chmod -R 777 /backend/bootstrap/cache /backend/storage

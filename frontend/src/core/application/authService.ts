@@ -15,6 +15,7 @@ export interface RegisterResponse {
 }
 
 export async function loginService(email: string, password: string): Promise<LoginResponse> {
+  console.log(email, password)
   const credentials = new Credentials(email, password)
   if (!credentials.isValid()) throw new Error('Invalid credentials')
 

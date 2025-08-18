@@ -1,0 +1,33 @@
+services:
+    php-v2:
+        container_name: navi_v2_php
+        environment:
+            - TZ=America/Sao_Paulo
+        build:
+            dockerfile: ./devops/php/Dockerfile
+        volumes:
+            - ./:/Navi/:rw
+            - ./cronfile:/etc/cron.d/cronfile:rw
+            - ./devops/php/php.ini:/usr/local/etc/php/php.ini
+        restart: always
+        command: ["/Navi/start.sh"]
+        extra_hosts:
+            - "dblocal:10.0.200.83"
+            - "dbprod:10.0.10.84"
+            - "dbmantis:10.0.200.180"
+    apache2-v2:
+        container_name: navi_v2_apache
+        environment:
+            - TZ=America/Sao_Paulo
+        build:
+            dockerfile: ./devops/apache2/Dockerfile
+        volumes:
+            - ./devops/apache2/conf.cert:/etc/apache2/conf.cert
+            - ./devops/apache2/sites-enabled:/etc/apache2/sites-enabled
+            - ./:/Navi/:rw
+        ports:
+            - "3543:80"
+            - "3544:443"
+        restart: always
+        depends_on:
+            - php-v2

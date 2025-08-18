@@ -29,6 +29,21 @@ application/
 
 ---
 
+## 🔗 Endereços (ambiente de desenvolvimento)
+
+**Frontend (Vite):**
+- Local: **http://localhost:5173/**
+- Network (Docker): **http://172.18.0.5:5173/** *(acessível entre containers)*
+- Vue DevTools: **http://localhost:5173/__devtools__/**
+
+**Backend (Apache → PHP-FPM):**
+- API (HTTP): **http://localhost:3543/api/v1**
+- API (HTTPS): **https://localhost:3544/api/v1** *(se o serviço 443 estiver ativo)*
+
+> Dica: no **frontend** use `VITE_API_URL=http://localhost:3543/api/v1` para apontar para a API acima.
+
+---
+
 ## 🗂️ Estrutura de pastas (resumo)
 
 ```
@@ -63,7 +78,7 @@ application/
 
 ![ERD](docs/erd.png)
 
-> Dica: mova o arquivo `erd.png` gerado para `application/docs/erd.png` (ou `application/backend/doc/erd.png`) e ajuste o caminho acima se preferir.
+Relação: **users (1) — (N) products**.
 
 ---
 
@@ -109,14 +124,14 @@ application/
 3. **Nginx/Apache — Header Authorization**
    > Necessário para qualquer autenticação via `Authorization: Bearer` chegar ao PHP.
 
-   Nginx (bloco `location ~ \.php$`):
-   ```nginx
-   fastcgi_param HTTP_AUTHORIZATION $http_authorization;
-   ```
-
    Apache:
    ```apache
    SetEnvIf Authorization "(.*)" HTTP_AUTHORIZATION=$1
+   ```
+
+   Nginx (se usar Nginx no lugar do Apache):
+   ```nginx
+   fastcgi_param HTTP_AUTHORIZATION $http_authorization;
    ```
 
 5. **Rotas protegidas (exemplo)**
@@ -150,7 +165,7 @@ docker compose exec app php artisan migrate --seed
 docker compose exec app php artisan jwt:secret
 ```
 
-A API deverá responder em algo como: `http://localhost:3543/api/v1` (ajuste conforme seu compose).
+A API deverá responder em: **http://localhost:3543/api/v1**.
 
 ---
 
@@ -195,7 +210,7 @@ VITE_API_URL=https://api.seudominio.com/api/v1
 VITE_APP_NAME="Meu App"
 ```
 
-> Observação: no snippet que você mandou havia `http://localhost:3543:api/v1` (com dois `:`). O correto é `http://localhost:3543/api/v1`.
+> Observação: no snippet anterior havia `http://localhost:3543:api/v1` (com dois `:`). O correto é `http://localhost:3543/api/v1`.
 
 ---
 
@@ -210,6 +225,22 @@ VITE_APP_NAME="Meu App"
 3. `GET /api/v1/me` → dados do usuário autenticado
 4. `POST /api/v1/refresh` → novo token
 5. `POST /api/v1/logout` → invalida o token
+
+---
+
+## 📚 Documentação da API (opcional — Dedoc/Scramble)
+
+- UI: `http://localhost:3543/docs` (ou `http://127.0.0.1:8000/docs` se rodando sem Docker)
+- OpenAPI JSON: `http://localhost:3543/docs/openapi.json`
+
+Para habilitar localmente:
+```bash
+php artisan vendor:publish --provider="Dedoc\Scramble\ScrambleServiceProvider" --tag="config"
+```
+`.env`:
+```env
+SCRAMBLE_ENABLED=true
+```
 
 ---
 
@@ -252,7 +283,7 @@ npm run test
 
 ## 🔧 Troubleshooting
 
-- **401 Unauthenticated**: verifique se o header `Authorization` chega ao PHP (Nginx/Apache), se o guard `api` está com driver `jwt`, se o token não expirou.
+- **401 Unauthenticated**: verifique se o header `Authorization` chega ao PHP (Apache/Nginx), se o guard `api` está com driver `jwt`, se o token não expirou.
 - **CORS**: libere `allowed_headers` e inclua o origin do frontend.
 - **URL errada**: confirme `VITE_API_URL` e portas do Docker.
 - **Migrations duplicadas**: se não usa mais Sanctum, remova o pacote/migrations/tabela `personal_access_tokens`.

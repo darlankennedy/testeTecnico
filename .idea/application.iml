@@ -127,6 +127,7 @@
       <excludeFolder url="file://$MODULE_DIR$/backend/vendor/spatie/laravel-package-tools" />
       <excludeFolder url="file://$MODULE_DIR$/backend/vendor/zircote/swagger-php" />
       <excludeFolder url="file://$MODULE_DIR$/backend/vendor/laravellegends/pt-br-validator" />
+      <excludeFolder url="file://$MODULE_DIR$/backend/vendor/bamarni/composer-bin-plugin" />
       <excludeFolder url="file://$MODULE_DIR$/backend/vendor/barryvdh/laravel-dompdf" />
       <excludeFolder url="file://$MODULE_DIR$/backend/vendor/dompdf/dompdf" />
       <excludeFolder url="file://$MODULE_DIR$/backend/vendor/dompdf/php-font-lib" />

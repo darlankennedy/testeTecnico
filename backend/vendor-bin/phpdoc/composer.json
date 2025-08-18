@@ -1,0 +1,15 @@
+{
+    "name": "darlan/phpdoc",
+    "autoload": {
+        "psr-4": {
+            "Darlan\\Phpdoc\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "darlan",
+            "email": "darlankennedy2@gmail.com"
+        }
+    ],
+    "require": {}
+}

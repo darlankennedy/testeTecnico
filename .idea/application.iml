@@ -221,9 +221,7 @@
       <excludeFolder url="file://$MODULE_DIR$/api-backend/vendor/brick/math" />
       <excludeFolder url="file://$MODULE_DIR$/api-backend/vendor/carbonphp/carbon-doctrine-types" />
       <excludeFolder url="file://$MODULE_DIR$/api-backend/vendor/composer" />
-      <excludeFolder url="file://$MODULE_DIR$/api-backend/vendor/darkaonline/l5-swagger" />
       <excludeFolder url="file://$MODULE_DIR$/api-backend/vendor/dflydev/dot-access-data" />
-      <excludeFolder url="file://$MODULE_DIR$/api-backend/vendor/doctrine/annotations" />
       <excludeFolder url="file://$MODULE_DIR$/api-backend/vendor/doctrine/inflector" />
       <excludeFolder url="file://$MODULE_DIR$/api-backend/vendor/doctrine/lexer" />
       <excludeFolder url="file://$MODULE_DIR$/api-backend/vendor/dragonmantank/cron-expression" />
@@ -274,7 +272,6 @@
       <excludeFolder url="file://$MODULE_DIR$/api-backend/vendor/phpunit/php-text-template" />
       <excludeFolder url="file://$MODULE_DIR$/api-backend/vendor/phpunit/php-timer" />
       <excludeFolder url="file://$MODULE_DIR$/api-backend/vendor/phpunit/phpunit" />
-      <excludeFolder url="file://$MODULE_DIR$/api-backend/vendor/psr/cache" />
       <excludeFolder url="file://$MODULE_DIR$/api-backend/vendor/psr/clock" />
       <excludeFolder url="file://$MODULE_DIR$/api-backend/vendor/psr/container" />
       <excludeFolder url="file://$MODULE_DIR$/api-backend/vendor/psr/event-dispatcher" />
@@ -304,7 +301,6 @@
       <excludeFolder url="file://$MODULE_DIR$/api-backend/vendor/sebastian/version" />
       <excludeFolder url="file://$MODULE_DIR$/api-backend/vendor/spatie/laravel-permission" />
       <excludeFolder url="file://$MODULE_DIR$/api-backend/vendor/staabm/side-effects-detector" />
-      <excludeFolder url="file://$MODULE_DIR$/api-backend/vendor/swagger-api/swagger-ui" />
       <excludeFolder url="file://$MODULE_DIR$/api-backend/vendor/symfony/clock" />
       <excludeFolder url="file://$MODULE_DIR$/api-backend/vendor/symfony/console" />
       <excludeFolder url="file://$MODULE_DIR$/api-backend/vendor/symfony/css-selector" />
@@ -340,7 +336,6 @@
       <excludeFolder url="file://$MODULE_DIR$/api-backend/vendor/voku/portable-ascii" />
       <excludeFolder url="file://$MODULE_DIR$/api-backend/vendor/webmozart/assert" />
       <excludeFolder url="file://$MODULE_DIR$/api-backend/vendor/wikimedia/composer-merge-plugin" />
-      <excludeFolder url="file://$MODULE_DIR$/api-backend/vendor/zircote/swagger-php" />
       <excludeFolder url="file://$MODULE_DIR$/backend.old/vendor/bamarni/composer-bin-plugin" />
       <excludeFolder url="file://$MODULE_DIR$/backend.old/vendor/barryvdh/laravel-dompdf" />
       <excludeFolder url="file://$MODULE_DIR$/backend.old/vendor/brick/math" />
@@ -470,6 +465,10 @@
       <excludeFolder url="file://$MODULE_DIR$/backend.old/vendor/voku/portable-ascii" />
       <excludeFolder url="file://$MODULE_DIR$/backend.old/vendor/webmozart/assert" />
       <excludeFolder url="file://$MODULE_DIR$/backend.old/vendor/zircote/swagger-php" />
+      <excludeFolder url="file://$MODULE_DIR$/api-backend/vendor/laravellegends/pt-br-validator" />
+      <excludeFolder url="file://$MODULE_DIR$/api-backend/vendor/dedoc/scramble" />
+      <excludeFolder url="file://$MODULE_DIR$/api-backend/vendor/phpstan/phpdoc-parser" />
+      <excludeFolder url="file://$MODULE_DIR$/api-backend/vendor/spatie/laravel-package-tools" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />

@@ -230,10 +230,8 @@
       <path value="$PROJECT_DIR$/api-backend/vendor/theseer/tokenizer" />
       <path value="$PROJECT_DIR$/api-backend/vendor/symfony/uid" />
       <path value="$PROJECT_DIR$/api-backend/vendor/symfony/var-dumper" />
-      <path value="$PROJECT_DIR$/api-backend/vendor/zircote/swagger-php" />
       <path value="$PROJECT_DIR$/api-backend/vendor/doctrine/inflector" />
       <path value="$PROJECT_DIR$/api-backend/vendor/doctrine/lexer" />
-      <path value="$PROJECT_DIR$/api-backend/vendor/doctrine/annotations" />
       <path value="$PROJECT_DIR$/api-backend/vendor/lcobucci/jwt" />
       <path value="$PROJECT_DIR$/api-backend/vendor/carbonphp/carbon-doctrine-types" />
       <path value="$PROJECT_DIR$/api-backend/vendor/fakerphp/faker" />
@@ -263,15 +261,12 @@
       <path value="$PROJECT_DIR$/api-backend/vendor/guzzlehttp/uri-template" />
       <path value="$PROJECT_DIR$/api-backend/vendor/guzzlehttp/guzzle" />
       <path value="$PROJECT_DIR$/api-backend/vendor/guzzlehttp/promises" />
-      <path value="$PROJECT_DIR$/api-backend/vendor/darkaonline/l5-swagger" />
-      <path value="$PROJECT_DIR$/api-backend/vendor/swagger-api/swagger-ui" />
       <path value="$PROJECT_DIR$/api-backend/vendor/nunomaduro/collision" />
       <path value="$PROJECT_DIR$/api-backend/vendor/nunomaduro/termwind" />
       <path value="$PROJECT_DIR$/api-backend/vendor/graham-campbell/result-type" />
       <path value="$PROJECT_DIR$/api-backend/vendor/php-open-source-saver/jwt-auth" />
       <path value="$PROJECT_DIR$/api-backend/vendor/tijsverkoyen/css-to-inline-styles" />
       <path value="$PROJECT_DIR$/api-backend/vendor/dragonmantank/cron-expression" />
-      <path value="$PROJECT_DIR$/api-backend/vendor/psr/cache" />
       <path value="$PROJECT_DIR$/api-backend/vendor/psr/event-dispatcher" />
       <path value="$PROJECT_DIR$/api-backend/vendor/psr/http-client" />
       <path value="$PROJECT_DIR$/api-backend/vendor/psr/clock" />
@@ -466,6 +461,10 @@
       <path value="$PROJECT_DIR$/backend.old/vendor/laravellegends/pt-br-validator" />
       <path value="$PROJECT_DIR$/backend.old/vendor/composer" />
       <path value="$PROJECT_DIR$/api-backend/vendor/laravel/sanctum" />
+      <path value="$PROJECT_DIR$/api-backend/vendor/laravellegends/pt-br-validator" />
+      <path value="$PROJECT_DIR$/api-backend/vendor/spatie/laravel-package-tools" />
+      <path value="$PROJECT_DIR$/api-backend/vendor/phpstan/phpdoc-parser" />
+      <path value="$PROJECT_DIR$/api-backend/vendor/dedoc/scramble" />
     </include_path>
   </component>
   <component name="PhpProjectSharedConfiguration" php_language_level="8.2" />
